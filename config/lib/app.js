@@ -5,7 +5,7 @@
  */
 var config = require('../config'),
   mongooseService = require('./mongoose'),
-  express = require('./express'),
+  express = require('express'),
   chalk = require('chalk'),
   seed = require('./mongo-seed');
 
@@ -33,7 +33,7 @@ module.exports.start = function start(callback) {
 
   //_this.init(function (app, config) {
 
-	var app            = express();
+	var app = express();
     // Start the app by listening on <port> at <host>
     app.listen(config.port, config.host, function () {
       // Create server URL
