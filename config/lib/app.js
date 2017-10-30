@@ -31,8 +31,9 @@ module.exports.init = function init(callback) {
 module.exports.start = function start(callback) {
   var _this = this;
 
-  _this.init(function (app, config) {
+  //_this.init(function (app, config) {
 
+	var app            = express();
     // Start the app by listening on <port> at <host>
     app.listen(config.port, config.host, function () {
       // Create server URL
@@ -52,6 +53,6 @@ module.exports.start = function start(callback) {
       if (callback) callback(app, config);
     });
 
-  });
+ // });
 
 };
