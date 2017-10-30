@@ -23,15 +23,15 @@ module.exports.init = function init(callback) {
 
     // Initialize express
   //  var app = express.init(db);
-    if (callback) callback(express,config);
+  //  if (callback) callback(express,config);
 
  // });
 };
 
 module.exports.start = function start(callback) {
-  var _this = this;
+  // var _this = this;
 
-  //_this.init(function (app, config) {
+  // _this.init(function (app, config) {
 
 	var app = express();
     // Start the app by listening on <port> at <host>
