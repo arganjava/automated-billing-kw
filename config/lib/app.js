@@ -17,21 +17,21 @@ function seedDB() {
 }
 
 module.exports.init = function init(callback) {
-  mongooseService.connect(function (db) {
+ // mongooseService.connect(function (db) {
     // Initialize Models
-    mongooseService.loadModels(seedDB);
+   // mongooseService.loadModels(seedDB);
 
     // Initialize express
     var app = express.init(db);
-    if (callback) callback(app, db, config);
+    if (callback) callback(express,config);
 
-  });
+ // });
 };
 
 module.exports.start = function start(callback) {
   var _this = this;
 
-  _this.init(function (app, db, config) {
+  _this.init(function (app, config) {
 
     // Start the app by listening on <port> at <host>
     app.listen(config.port, config.host, function () {
@@ -49,7 +49,7 @@ module.exports.start = function start(callback) {
         console.log(chalk.green('MEAN.JS version: ' + config.meanjs['meanjs-version']));
       console.log('--');
 
-      if (callback) callback(app, db, config);
+      if (callback) callback(app, config);
     });
 
   });
