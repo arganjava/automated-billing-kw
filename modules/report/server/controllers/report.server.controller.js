@@ -62,7 +62,11 @@ function callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSh
     if (getDataIndex < lengContainer) {
       console.info('Index ++ '+getDataIndex);
       indexUpdateRowSheetStart++;
-      callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers, res);
+      if(getDataIndex === 40){
+         setTimeout(callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers, res), 20000);
+      }else {
+        callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers, res);
+      }
     }
   })
 }
