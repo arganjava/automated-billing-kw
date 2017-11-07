@@ -42,7 +42,6 @@
 
 
     function generateReport() {
-      alert(vm.spreadsheetID);
       ReportService.generateSpreadsheetByID(vm.spreadsheetID)
         .then(function (data) {
           console.info(data);
