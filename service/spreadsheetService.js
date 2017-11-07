@@ -149,8 +149,8 @@ module.exports = {
           range: 'For Calculation!A2:AK',
         }
 
-        sheets.spreadsheets.values.get(request, function (err, response) {
-          console.log('Sheet info, err, response);
+
+        sheets.spreadsheets.values.get(request, function(err, response){
           if (err) {
             callback(err, null);
           } else {
@@ -172,9 +172,8 @@ module.exports = {
           spreadsheetId: spreadId,
           range: 'For Calculation!A2:AK',
         }
-        sheets.spreadsheets.values.get(request, function (err, response) {
-          console.log('Sheet info, err, response);
-          if (err) {
+        sheets.spreadsheets.values.get(request, function(err, response){
+        if (err) {
             callback(err, null);
           } else {
             callback(null, response);
@@ -193,15 +192,14 @@ module.exports = {
           auth: auth,
           spreadsheetId: spreadId,
           range: 'Usage Reports!A2:AK',
-        }
-        sheets.spreadsheets.values.get(request, function (err, response) {
-          console.log('Sheet info, err, response);
+        }        
+          sheets.spreadsheets.values.get(request, function (err, response) {
           if (err) {
             callback(err, null);
           } else {
             callback(null, response);
           }
-        });
+          });
       }
     });
   }
