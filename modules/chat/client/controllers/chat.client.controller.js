@@ -46,11 +46,16 @@
       ReportService.generateSpreadsheetByID(vm.spreadsheetID)
         .then(function (data) {
           console.info(data);
+		  if(data.error){
+		  vm.messageText= data.error;
+		  }else{
 		  vm.messageText= 'https://docs.google.com/spreadsheets/d/'+vm.spreadsheetID;
 		  vm.spreadsheetID = '';
+		  }
         })
         .catch(function (err) {
           console.info(err);
+		  		  vm.messageText= err;
         });
       // Create a new message object
      /* var message = {

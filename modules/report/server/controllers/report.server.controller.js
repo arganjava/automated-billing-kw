@@ -19,17 +19,35 @@ var Promise = require('bluebird');
 exports.create = function (req, res) {
   var spreadId = req.body.spreadsheetId;
   console.info(spreadId);
-  reportService.callContent(spreadId, function (containers) {
-    if (containers instanceof Error) {
-      res.json({ error: containers });
-    } else {
-      var lengContainer = containers.length;
-      var getDataIndex = 0;
-      callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers);
-    }
 
-  });
-  res.send(200);
+  reportService.checkSheetId(spreadId, function (err, response) {
+    if (err) {
+      res.status(500).send({status:500, message: err});
+    } else {
+      reportService.checkCalculationSheet(spreadId, function (err, response) {
+        if (err) {
+          res.status(500).send({status:500, message: err});
+        } else {
+          reportService.checkCalculationSheet(spreadId, function (err, response) {
+            if (err) {
+              res.status(500).send({status:500, message: err});
+            } else {
+              reportService.callContent(spreadId, function (containers) {
+                if (containers instanceof Error) {
+                  res.json({error: containers});
+                } else {
+                  var lengContainer = containers.length;
+                  var getDataIndex = 0;
+                  callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers);
+                }
+              });
+              res.send(200);
+            }
+          });
+        }
+      });
+    }
+  })
 
 };
 

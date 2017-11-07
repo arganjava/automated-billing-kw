@@ -136,7 +136,74 @@ module.exports = {
       return err;
     });
 
-  }
+  },
+  checkSheetId: function (spreadId, callback) {
+    authentication.authorize(function (auth) {
+      if (auth.error) {
+        callback(auth.error, null);
+      } else {
+        var sheets = google.sheets('v4');
+        var request = {
+          auth: auth,
+          spreadsheetId: spreadId,
+          range: 'For Calculation!A2:AK',
+        }
 
+        sheets.spreadsheets.values.get(request, function (err, response) {
+          console.log('Sheet info, err, response);
+          if (err) {
+            callback(err, null);
+          } else {
+            callback(null, response);
+          }
+        });
+      }
+    });
+  },
+
+  checkCalculationSheet: function (spreadId, callback) {
+    authentication.authorize(function (auth) {
+      if (auth.error) {
+        callback(auth.error, null);
+      } else {
+        var sheets = google.sheets('v4');
+        var request = {
+          auth: auth,
+          spreadsheetId: spreadId,
+          range: 'For Calculation!A2:AK',
+        }
+        sheets.spreadsheets.values.get(request, function (err, response) {
+          console.log('Sheet info, err, response);
+          if (err) {
+            callback(err, null);
+          } else {
+            callback(null, response);
+          }
+        });
+      }
+    });
+  },
+  checkUsageReportSheets: function (spreadId, callback) {
+    authentication.authorize(function (auth) {
+      if (auth.error) {
+        callback(auth.error, null);
+      } else {
+        var sheets = google.sheets('v4');
+        var request = {
+          auth: auth,
+          spreadsheetId: spreadId,
+          range: 'Usage Reports!A2:AK',
+        }
+        sheets.spreadsheets.values.get(request, function (err, response) {
+          console.log('Sheet info, err, response);
+          if (err) {
+            callback(err, null);
+          } else {
+            callback(null, response);
+          }
+        });
+      }
+    });
+  }
 }
 

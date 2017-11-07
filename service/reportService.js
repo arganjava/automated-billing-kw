@@ -350,6 +350,7 @@ function generateEachDropboxLink(spreadId, parameters) {
           resolve(data);
         } else {
           reject(response);
+		  return data.error;
         }
       });
     }).catch(function (err) {
