@@ -10,9 +10,9 @@
   function routeConfig($stateProvider) {
     $stateProvider
       .state('chat', {
-        url: '/chat',
+        url: '/report',
         templateUrl: '/modules/chat/client/views/chat.client.view.html',
-        controller: 'ChatController',
+        controller: 'ReportController',
         controllerAs: 'vm',
         data: {
           roles: ['user', 'admin']

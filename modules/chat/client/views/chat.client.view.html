@@ -1,15 +1,15 @@
 <!-- The chat view -->
 <section class="container">
   <div class="page-header">
-    <h1>Chat Example</h1>
+    <h1>Spreadsheet Reporting</h1>
   </div>
   <!-- The message form -->
-  <form class="col-xs-12 col-md-offset-4 col-md-4" ng-submit="vm.sendMessage();">
+  <form class="col-xs-12 col-md-offset-4 col-md-4" ng-submit="vm.generateReport()">
     <fieldset class="row">
       <div class="input-group">
-        <input type="text" id="messageText" name="messageText" class="form-control" ng-model="vm.messageText" placeholder="Enter new message" autofocus>
+        <input type="text" id="spreadsheetID" name="spreadsheetID" class="form-control" ng-model="vm.spreadsheetID" placeholder="Enter Spreadsheet ID" autofocus>
         <span class="input-group-btn">
-          <button type="submit" class="btn btn-primary" ng-disabled="!vm.messageText.length">Submit</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="!vm.spreadsheetID.length">Submit</button>
         </span>
       </div>
     </fieldset>

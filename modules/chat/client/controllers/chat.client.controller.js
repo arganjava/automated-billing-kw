@@ -3,16 +3,18 @@
 
   angular
     .module('chat')
-    .controller('ChatController', ChatController);
+    .controller('ReportController', ReportController);
 
-  ChatController.$inject = ['$scope', '$state', 'Authentication', 'Socket'];
+  ReportController.$inject = ['$scope', '$state', 'Authentication', 'Socket', 'ReportService'];
 
-  function ChatController($scope, $state, Authentication, Socket) {
+  function ReportController($scope, $state, Authentication, Socket, ReportService) {
     var vm = this;
 
     vm.messages = [];
     vm.messageText = '';
+    vm.spreadsheetID = '';
     vm.sendMessage = sendMessage;
+    vm.generateReport = generateReport;
 
     init();
 
@@ -36,6 +38,28 @@
       $scope.$on('$destroy', function () {
         Socket.removeListener('chatMessage');
       });
+    }
+
+
+    function generateReport() {
+      alert(vm.spreadsheetID);
+      ReportService.generateSpreadsheetByID(vm.spreadsheetID)
+        .then(function (data) {
+          console.info(data);
+        })
+        .catch(function (err) {
+          console.info(err);
+        });
+      // Create a new message object
+     /* var message = {
+        text: vm.messageText
+      };
+
+      // Emit a 'chatMessage' message event
+      Socket.emit('chatMessage', message);
+
+      // Clear the message text
+      vm.messageText = '';*/
     }
 
     // Create a controller method for sending messages
