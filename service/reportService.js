@@ -236,7 +236,7 @@ function updateRowSheet(spreadId, objectLinks, cb) {
 function insertFile(resParam) {
   var timeGenerate = moment().format('DD MMM YYYY')
   var pathDir  = moment().format('DD:MM:YY - hh:mm:ss:SSSS');
-var timeDirectory = moment().format('DD:MM:YY - HH:mm');
+var timeDirectory = moment().format('DD:MM:YY - HH:mm:ss');
 var month = moment().format('MMM');
 
   var index = 0;
