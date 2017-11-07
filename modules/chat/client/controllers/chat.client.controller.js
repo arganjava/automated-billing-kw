@@ -42,9 +42,12 @@
 
 
     function generateReport() {
+	  vm.messageText='';
       ReportService.generateSpreadsheetByID(vm.spreadsheetID)
         .then(function (data) {
           console.info(data);
+		  vm.messageText= 'https://docs.google.com/spreadsheets/d/'+vm.spreadsheetID;
+		  vm.spreadsheetID = '';
         })
         .catch(function (err) {
           console.info(err);
