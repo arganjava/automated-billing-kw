@@ -9,8 +9,6 @@ var Dropbox = require('dropbox');
 var dropboxAuth = JSON.parse(fs.readFileSync(path.resolve('./config/dropboxAuth.json')))
 var rootDropboxFolder = '/Usage Report/';
 var moment = require('moment');
-var timeDirectory = moment().format('DD:MM:YY - HH:mm');
-var month = moment().format('MMM');
 var Client = require('node-rest-client').Client;
 var q = require('q');
 var client = new Client();
@@ -238,6 +236,8 @@ function updateRowSheet(spreadId, objectLinks, cb) {
 function insertFile(resParam) {
   var timeGenerate = moment().format('DD MMM YYYY')
   var pathDir  = moment().format('DD:MM:YY - hh:mm:ss:SSSS');
+var timeDirectory = moment().format('DD:MM:YY - HH:mm');
+var month = moment().format('MMM');
 
   var index = 0;
   return Promise.try(function () {
