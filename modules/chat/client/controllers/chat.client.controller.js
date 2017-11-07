@@ -54,8 +54,8 @@
 		  }
         })
         .catch(function (err) {
-          console.info(err);
-		  		  vm.messageText= err;
+          console.info(err.error);
+		  vm.messageText= err.error;
         });
       // Create a new message object
      /* var message = {

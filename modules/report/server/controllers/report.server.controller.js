@@ -22,19 +22,19 @@ exports.create = function (req, res) {
 
   reportService.checkSheetId(spreadId, function (err, response) {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).render('error', { error: err });
     } else {
       reportService.checkCalculationSheet(spreadId, function (err, response) {
         if (err) {
-          res.status(500).send(err);
+          res.status(500).render('error', { error: err });
         } else {
           reportService.checkCalculationSheet(spreadId, function (err, response) {
             if (err) {
-              res.status(500).send(err);
+              res.status(500).render('error', { error: err });
             } else {
               reportService.callContent(spreadId, function (containers) {
                 if (containers instanceof Error) {
-                  res.status(500).send({error: containers});
+                  res.status(500).render({error: containers});
                 } else {
                   var lengContainer = containers.length;
                   var getDataIndex = 0;
