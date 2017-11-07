@@ -17,7 +17,6 @@ var client = new Client();
 var shortenerGoogleKey = 'AIzaSyAMI4AI8jK_9BJF2rp6LZUd8PjwO44SSjw';
 var indexUpdateRowSheet = 2;
 var googleLinkToken = "ya29.GlvqBIRGkDTUYPKT1wl5_N9IfUCfhUoxNr9ekAVWu7SOqLLVJgTXNLnXTdTens08XZJsV_FgWgu4p0TCE0Rp5bfzOXXWrzWWv66932wIDU1Xf3oNUc08l-hlq_Zr"
-const dropboxV2Api = require('dropbox-v2-api')
 
 
 function startGenerateReport(spreadId, callback) {
@@ -411,63 +410,6 @@ function uploadEachFileToDropbox(spreadId, localPathFile) {
 }
 
 
-function newUpload(spreadId, localPathFile) {
-  const dropbox = dropboxV2Api.authenticate({
-    token: dropboxAuth.access_token
-  });
-
-
-  var array = [];
-  return Promise.try(function () {
-    var file = localPathFile._settledValueField;
-    array.push(new Promise(function (resolve, reject) {
-
-      dropbox({
-        resource: 'files/upload',
-        parameters: {
-          path: file.nameDropboxFile
-        },
-        readStream: file.contents
-      }, (err, result) => {
-        if(!err){
-          var dataJson = {
-            filename: file.filename,
-            response: result,
-            companyCycle: file.companyCycle,
-            spreadId: spreadId
-          };
-          resolve(dataJson);
-          fs.unlink(file.filename)
-        }else {
-              reject(result);
-        }
-        //upload completed
-      });
-      /*dbx.filesUploadSessionStart({path: file.nameDropboxFile, contents: file.contents}).then(function (response) {
-        var dataJson = {
-          filename: file.filename,
-          response: response,
-          companyCycle: file.companyCycle,
-          spreadId: spreadId
-        };
-        console.info('uploadFileToDropbox ' + JSON.stringify(response.error));
-        if (!response.error) {
-          resolve(dataJson);
-          fs.unlink(file.filename)
-        }else {
-          reject(response);
-        }
-      });*/
-    }).catch(function (err) {
-      console.info(' upload err '+err);
-    }));
-    return Promise.settle(array);
-  }).catch(function (err) {
-    console.info(err);
-  })
-
-
-}
 
 
 function uploadFileToDropbox(spreadId, localPathFile) {
