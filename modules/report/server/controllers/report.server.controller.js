@@ -8,7 +8,8 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash'),
   reportService = require(path.resolve('./service/reportService')),
-  authentication = require(path.resolve('./config/authentication.js'));
+spreadsheetService = require(path.resolve('./service/spreadsheetService')),
+authentication = require(path.resolve('./config/authentication.js'));
 var indexUpdateRowSheetStart = 2;
 var Promise = require('bluebird');
 
@@ -20,15 +21,15 @@ exports.create = function (req, res) {
   var spreadId = req.body.spreadsheetId;
   console.info(spreadId);
 
-  reportService.checkSheetId(spreadId, function (err, response) {
+  spreadsheetService.checkSheetId(spreadId, function (err, response) {
     if (err) {
       res.json({error:err});
     } else {
-      reportService.checkCalculationSheet(spreadId, function (err, response) {
+      spreadsheetService.checkCalculationSheet(spreadId, function (err, response) {
         if (err) {
           res.json({error:err});
         } else {
-          reportService.checkCalculationSheet(spreadId, function (err, response) {
+          spreadsheetService.checkCalculationSheet(spreadId, function (err, response) {
             if (err) {
               res.json({error:err});
             } else {
