@@ -70,7 +70,7 @@ module.exports = {
       return err;
     });
   },
-  callEachService: function (spreadId, index, container, callback) {
+  callEachService: function (spreadId, index, container, username, timeGenerate, callback) {
     console.info(JSON.stringify(container._settledValueField.nameDropboxFile));
     uploadEachFileToDropbox(spreadId, container).then(function (results) {
       process.nextTick(() => {
@@ -108,7 +108,7 @@ module.exports = {
               console.log("response : " + fileGenerate.response);
               console.log("indexSheet : " + index);
             }
-            updateEachRowSheetWithIndex(spreadId, index, shortLinks, function (sheet) {
+            updateEachRowSheetWithIndex(spreadId, index, shortLinks, username, timeGenerate, function (sheet) {
               if (!sheet.error) {
                 process.nextTick(function () {
                   callback(sheet);
@@ -280,12 +280,12 @@ var month = moment().format('MMM');
   })
 }
 
-function updateEachRowSheetWithIndex(spreadId, index, objectLinks, cb) {
+function updateEachRowSheetWithIndex(spreadId, index, objectLinks, username, timeGenerate, cb) {
   let data = [];
   var link = objectLinks[0]._settledValueField;
   if (link.companyCycle !== undefined) {
     var companyCycle = link.companyCycle.replace('^', ' ')
-    data.push(["", "", companyCycle + ' ' + link.id]);
+    data.push(["", "", companyCycle + ' ' + link.id, username, timeGenerate]);
   }else {
     data.push(["", "", ""]);
   }

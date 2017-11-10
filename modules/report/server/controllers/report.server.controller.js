@@ -9,9 +9,11 @@ var path = require('path'),
   _ = require('lodash'),
   reportService = require(path.resolve('./service/reportService')),
 spreadsheetService = require(path.resolve('./service/spreadsheetService')),
+  User = mongoose.model('User'),
 authentication = require(path.resolve('./config/authentication.js'));
 var indexUpdateRowSheetStart = 2;
 var Promise = require('bluebird');
+var moment = require('moment');
 
 
 /**
@@ -19,37 +21,43 @@ var Promise = require('bluebird');
  */
 exports.create = function (req, res) {
   var spreadId = req.body.spreadsheetId;
-  console.info(spreadId);
-
-  spreadsheetService.checkSheetId(spreadId, function (err, response) {
+  var timeGenerate = moment().format('DD MMM YYYY HH:mm:ss')
+  User.findById(req.session.passport.user, function (err, user) {
     if (err) {
-      res.json({error:err});
+      res.json({ error: err.message });
     } else {
-      spreadsheetService.checkCalculationSheet(spreadId, function (err, response) {
+      spreadsheetService.checkSheetId(spreadId, function (err, response) {
         if (err) {
-          res.json({error:err});
+          res.json({ error: err.message });
         } else {
           spreadsheetService.checkCalculationSheet(spreadId, function (err, response) {
             if (err) {
-              res.json({error:err});
+              res.json({ error: err.message });
             } else {
-              reportService.callContent(spreadId, function (containers) {
-                if (containers instanceof Error) {
-                  res.json({error:err});
+              spreadsheetService.createUsageReport(spreadId, function (err, response) {
+                if (err !== null && err.message.indexOf("already exist") < 1) {
+                  res.json({ error: err.message });
                 } else {
-                  var lengContainer = containers.length;
-                  var getDataIndex = 0;
-                  callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers);
+                  reportService.callContent(spreadId, function (containers) {
+                    if (containers instanceof Error) {
+                      res.json({ error: err.message });
+                    } else {
+                      var lengContainer = containers.length;
+                      var getDataIndex = 0;
+                      callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers, user.displayName, timeGenerate);
+                    }
+                  });
+                  res.send(200);
                 }
               });
-              res.send(200);
             }
           });
         }
       });
-    }
-  })
 
+    }
+
+  });
 };
 
 /**
@@ -82,7 +90,7 @@ exports.list = function (req, res) {
   reportService.callContent(spreadId, function (containers) {
     var lengContainer = containers.length;
     var getDataIndex = 0;
-    callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers);
+    callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers, '');
 
   });
   res.send(200);
@@ -90,12 +98,12 @@ exports.list = function (req, res) {
 };
 
 
-function callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, container, containers) {
+function callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, container, containers, username, timeGenerate) {
   let self = this;
   var promises = [];
   return Promise.try(function () {
     promises.push(new Promise(function (resolve, reject) {
-      reportService.callEachService(spreadId, indexUpdateRowSheetStart, container, function (data) {
+      reportService.callEachService(spreadId, indexUpdateRowSheetStart, container, username, timeGenerate, function (data) {
 
         getDataIndex++;
         if (getDataIndex < lengContainer) {
@@ -103,7 +111,7 @@ function callEachService(spreadId, lengContainer, getDataIndex, indexUpdateRowSh
           indexUpdateRowSheetStart++;
           process.nextTick(function () {
             console.info('Next Upload');
-            callEachService.call(self, spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers);
+            callEachService.call(self, spreadId, lengContainer, getDataIndex, indexUpdateRowSheetStart, containers[getDataIndex], containers, username, timeGenerate);
             resolve(data);
           });
         } else {

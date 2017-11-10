@@ -10,7 +10,7 @@ const outgoingCallIndex = 8;
 const outgoingSMSIndex = 11;
 const dataGBIndex = 13;
 
-module.exports = {
+var self = module.exports = {
   listMajors: function (spreadId) {
     return new Promise(function (resolve, reject) {
       authentication.authorize(function (auth) {
@@ -192,7 +192,7 @@ module.exports = {
           auth: auth,
           spreadsheetId: spreadId,
           range: 'Usage Reports!A2:AK',
-        }        
+        }
           sheets.spreadsheets.values.get(request, function (err, response) {
           if (err) {
             callback(err, null);
@@ -200,6 +200,42 @@ module.exports = {
             callback(null, response);
           }
           });
+      }
+    });
+  },
+  createUsageReport: function (spreadId, callback) {
+    authentication.authorize(function (auth) {
+      if (auth.error) {
+        callback(auth.error, null);
+      } else {
+        var sheets = google.sheets('v4');
+        var request = {
+          auth: auth,
+          spreadsheetId: spreadId,
+          resource: {
+            requests: [
+              {
+                addSheet: {
+                  properties: {
+                    title: "Usage Reports"
+                  }
+                }
+              }
+            ]
+          }
+        }
+        sheets.spreadsheets.batchUpdate(request, function (err, response) {
+          if (err) {
+            callback(err, null);
+          } else {
+            var data = [['Company', 'Link', 'Text for Invoice', 'Generate by', 'Update at']]
+            self.updateSheetAndRow(spreadId, 1, data).then(function (response) {
+              callback(null, response);
+            }).catch(function (err) {
+              callback(err, null);
+            });
+          }
+        });
       }
     });
   }
