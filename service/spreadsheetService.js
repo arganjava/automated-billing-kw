@@ -73,7 +73,9 @@ var self = module.exports = {
                           outgoingSMS: row[outgoingSMSIndex] !== undefined ? row[outgoingSMSIndex] : 0.00
                         };
                         let company = row[companyIndex];
-                        //   if (row[companyIndex] === 'Aspectus' || row[companyIndex] === 'CA TPTN') {
+                        if (company !== undefined) {
+                          company = company.trim();
+                        }
                         if (map.has(company)) {
                           let arry = map.get(company);
                           arry.push(objMap);
@@ -83,8 +85,6 @@ var self = module.exports = {
                           arrMap.push(objMap);
                           map.set(company, arrMap);
                         }
-                        // }
-
                       }
                       var returnJson = {data: map, cycle: cycle};
                       resolve(returnJson);
