@@ -76,14 +76,16 @@ var self = module.exports = {
                         if (company !== undefined) {
                           company = company.trim();
                         }
-                        if (map.has(company)) {
-                          let arry = map.get(company);
-                          arry.push(objMap);
-                          map.set(company, arry);
-                        } else {
-                          let arrMap = [];
-                          arrMap.push(objMap);
-                          map.set(company, arrMap);
+                        if(company != null){
+                          if (map.has(company)) {
+                            let arry = map.get(company);
+                            arry.push(objMap);
+                            map.set(company, arry);
+                          } else {
+                            let arrMap = [];
+                            arrMap.push(objMap);
+                            map.set(company, arrMap);
+                          }
                         }
                       }
                       var returnJson = {data: map, cycle: cycle};
