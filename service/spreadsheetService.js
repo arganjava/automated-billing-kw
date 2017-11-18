@@ -29,6 +29,8 @@ var self = module.exports = {
           reject(auth);
         } else {
           var sheets = google.sheets('v4');
+
+
           sheets.spreadsheets.values.get({
             auth: auth,
             spreadsheetId: spreadId,
@@ -50,12 +52,10 @@ var self = module.exports = {
                 }
                 var cycle = JSON.stringify(response.properties.title);
                 cycle = cycle.replace('"', '').replace('"', '');
-
-
                 sheets.spreadsheets.values.get({
                   auth: auth,
                   spreadsheetId: spreadId,
-                  range: 'For Calculation!A1:AK',
+                  range: 'For Calculation!A2:AK',
                 }, function (err, response) {
                   if (err) {
                     console.log('The API returned an error: ' + err);
@@ -151,7 +151,7 @@ var self = module.exports = {
     }).catch(function (err) {
       // console.info(err)
       return new Error(err);
-    });
+    })
 
   },
   updateSheetAndRow: function (spreadId, indexUpdateRowSheet, data) {
@@ -199,7 +199,7 @@ var self = module.exports = {
         }
 
 
-        sheets.spreadsheets.values.get(request, function (err, response) {
+        sheets.spreadsheets.values.get(request, function(err, response){
           if (err) {
             callback(err, null);
           } else {
@@ -221,8 +221,8 @@ var self = module.exports = {
           spreadsheetId: spreadId,
           range: 'For Calculation!A2:AK',
         }
-        sheets.spreadsheets.values.get(request, function (err, response) {
-          if (err) {
+        sheets.spreadsheets.values.get(request, function(err, response){
+        if (err) {
             callback(err, null);
           } else {
             callback(null, response);
@@ -242,13 +242,13 @@ var self = module.exports = {
           spreadsheetId: spreadId,
           range: 'Usage Reports!A2:AK',
         }
-        sheets.spreadsheets.values.get(request, function (err, response) {
+          sheets.spreadsheets.values.get(request, function (err, response) {
           if (err) {
             callback(err, null);
           } else {
             callback(null, response);
           }
-        });
+          });
       }
     });
   },
