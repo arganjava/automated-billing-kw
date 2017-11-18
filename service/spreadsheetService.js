@@ -14,14 +14,6 @@ const dataGBName = 'datalocal(mb)';
 var self = module.exports = {
   listMajors: function (spreadId) {
 
-    let companyIndex = 1;
-    let itemIndex = 3;
-    let lineNUmberIndex = 2;
-    let incomingCallIndex = 7;
-    let outgoingCallIndex = 8;
-    let outgoingSMSIndex = 11;
-    let dataGBIndex = 13;
-
     return new Promise(function (resolve, reject) {
       authentication.authorize(function (auth) {
         if (auth.error) {
@@ -66,6 +58,15 @@ var self = module.exports = {
                     if (rows === null || rows.length === 0 || rows === undefined) {
                       return new Error('No data found.');
                     } else {
+
+                      let companyIndex = 1;
+                      let itemIndex = 3;
+                      let lineNUmberIndex = 2;
+                      let incomingCallIndex = 7;
+                      let outgoingCallIndex = 8;
+                      let outgoingSMSIndex = 11;
+                      let dataGBIndex = 13;
+
                       for (var i = 0; i < rows.length; i++) {
                         var row = rows[i];
                         row = replaceall('\n', ' ', row);
