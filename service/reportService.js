@@ -6,13 +6,14 @@ let path = require('path')
 let reportPath = "./config/report/";
 let spreadsheetService = require('../service/spreadsheetService');
 var Dropbox = require('dropbox');
-var dropboxAuth = JSON.parse(fs.readFileSync(path.resolve('./config/dropboxAuth.json')))
+//var dropboxAuth = JSON.parse(fs.readFileSync(path.resolve('./config/dropboxAuth.json')))
+var dropboxAuth = JSON.parse(fs.readFileSync(path.resolve('./config/dropboxAuthNew.json')))
 var rootDropboxFolder = '/Usage Report/';
 var moment = require('moment');
 var Client = require('node-rest-client').Client;
-var q = require('q');
 var client = new Client();
 var shortenerGoogleKey = 'AIzaSyAMI4AI8jK_9BJF2rp6LZUd8PjwO44SSjw';
+var shortenerGoogleKeyNew = 'AIzaSyCmHHPsRaVPQBhUspsgMZCXdgAwl0JTp2U';
 var indexUpdateRowSheet = 2;
 var googleLinkToken = "ya29.GlvqBIRGkDTUYPKT1wl5_N9IfUCfhUoxNr9ekAVWu7SOqLLVJgTXNLnXTdTens08XZJsV_FgWgu4p0TCE0Rp5bfzOXXWrzWWv66932wIDU1Xf3oNUc08l-hlq_Zr"
 

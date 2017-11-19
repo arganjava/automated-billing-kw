@@ -3,7 +3,7 @@ var GoogleAuth = require('google-auth-library');
 var path = require('path');
 var SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 var TOKEN_DIR = path.resolve('./config/');
-var TOKEN_PATH = TOKEN_DIR + '/sheets.googleapis.com-nodejs-quickstart.json';
+var TOKEN_PATH = TOKEN_DIR + '/sheets.googleapis.com-nodejs-quickstartNew.json';
 
 
 module.exports = {
@@ -39,7 +39,7 @@ function generateToken(code) {
 }
 
 function readCredential(callback) {
-  fs.readFile(path.resolve('./config/credentials.json'), function processClientSecrets(err, content) {
+  fs.readFile(path.resolve('./config/credentials-new.json'), function processClientSecrets(err, content) {
     if (err) {
       console.log('Error loading client secret file: ' + err);
       return;
