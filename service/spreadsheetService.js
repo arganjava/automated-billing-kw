@@ -47,7 +47,7 @@ var self = module.exports = {
                 sheets.spreadsheets.values.get({
                   auth: auth,
                   spreadsheetId: spreadId,
-                  range: 'For Calculation!A2:AK',
+                  range: 'For Calculation!A1:AK',
                 }, function (err, response) {
                   if (err) {
                     console.log('The API returned an error: ' + err);
