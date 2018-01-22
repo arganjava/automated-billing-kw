@@ -8,6 +8,7 @@ module.exports = function (app) {
     .post(report.create);
   app.route('/report/:spreadId')
     .get(report.list);
-
+  app.route('/sample-callback')
+    .post(report.sampleCallbackURL);
 
 };

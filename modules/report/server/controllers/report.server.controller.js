@@ -129,3 +129,10 @@ exports.createToken = function (req, res) {
   var token = req.params.tokenId;
   authentication.getNewToken(token);
 };
+
+
+exports.sampleCallbackURL = function (req, res) {
+  console.info("GET Request Interactive Text")
+  console.info(JSON.stringify(req.body))
+  res.send(200);
+};
